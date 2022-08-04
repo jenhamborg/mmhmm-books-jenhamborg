@@ -59,8 +59,7 @@ export default Form;
 const FormContainer = styled.div`
   min-width: 601px;
   .form-button-container {
-    display: flex;
-    justify-content: center;
+    margin-left: 15px;
   }
   label {
     font-size: 0.875rem;
