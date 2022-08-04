@@ -9,8 +9,27 @@ import Form from "../components/form";
 import { PageWrapper } from "../components/layout/pageWrapper";
 
 const Home = (props) => {
-  const [addBook, setAddBook] = useState(false);
   const books = props.data;
+  const [addBook, setAddBook] = useState(false);
+  const [formData, setFormData] = useState({
+    author: "",
+    description: "",
+    imageUrl: "",
+    title: "",
+  });
+
+  function handleChange(event) {
+    const value = event.target.value;
+    setFormData({
+      ...formData,
+      [event.target.name]: value,
+    });
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formData);
+  };
 
   const handleDelete = () => {
     console.log("handle delete hit");
@@ -52,7 +71,13 @@ const Home = (props) => {
             </ul>
           </>
         ) : (
-          <Form icon={<CloseIcon width={28} height={28} color={"#AFAFAF"} />} />
+          <Form
+            handleChange={handleChange}
+            formData={formData}
+            iconFunction={() => setAddBook(false)}
+            icon={<CloseIcon width={28} height={28} color={"#AFAFAF"} />}
+            submit={handleSubmit}
+          />
         )}
       </div>
     </PageWrapper>
