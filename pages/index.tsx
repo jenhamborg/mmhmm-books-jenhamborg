@@ -3,8 +3,10 @@ import Axios from "axios";
 import Link from "next/link";
 import { Button } from "../components/button";
 import Card from "../components/card";
-import Delete from "../components/assets/delete";
-import { HomePageWrapper } from "../components/layout/homepage";
+import CloseIcon from "../components/assets/close";
+import DeleteIcon from "../components/assets/delete";
+import Form from "../components/form";
+import { PageWrapper } from "../components/layout/pageWrapper";
 
 const Home = (props) => {
   const [addBook, setAddBook] = useState(false);
@@ -15,37 +17,45 @@ const Home = (props) => {
   };
 
   return (
-    <HomePageWrapper>
+    <PageWrapper>
       <div className="page-content">
-        <div className="header-content">
-          <h1>Book Shelf</h1>
-          <Button onClick={() => setAddBook(true)}>Add book</Button>
-        </div>
-        <ul>
-          {books.map((book) => (
-            <li key={book.id}>
-              <Link
-                href={{
-                  pathname: "/[id]",
-                  query: { id: book.id },
-                }}
-              >
-                {/* <a>{book.title}</a> */}
-                <Card
-                  author={book.author}
-                  clickFunction={handleDelete}
-                  icon={<Delete width={19} height={21} color={"#929292"} />}
-                  id={book.id}
-                  image={book.imageUrl}
-                  paragraph={book.description}
-                  title={book.title}
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {!addBook ? (
+          <>
+            <div className="header-content">
+              <h1>Book Shelf</h1>
+              <Button onClick={() => setAddBook(true)}>Add book</Button>
+            </div>
+            <ul>
+              {books.map((book) => (
+                <li key={book.id}>
+                  <Link
+                    href={{
+                      pathname: "/[id]",
+                      query: { id: book.id },
+                    }}
+                  >
+                    {/* <a>{book.title}</a> */}
+                    <Card
+                      author={book.author}
+                      clickFunction={handleDelete}
+                      icon={
+                        <DeleteIcon width={19} height={21} color={"#929292"} />
+                      }
+                      id={book.id}
+                      image={book.imageUrl}
+                      paragraph={book.description}
+                      title={book.title}
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <Form icon={<CloseIcon width={28} height={28} color={"#AFAFAF"} />} />
+        )}
       </div>
-    </HomePageWrapper>
+    </PageWrapper>
   );
 };
 
