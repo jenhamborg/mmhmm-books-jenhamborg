@@ -47,7 +47,7 @@ const Form = ({ handleChange, formData, icon, iconFunction, submit }) => {
           />
         </label>
         <div className="form-button-container">
-          <Button type="submit">Save</Button>
+          <button type="submit">Save</button>
         </div>
       </FormContainer>
     </FormPageWrapper>
@@ -56,7 +56,7 @@ const Form = ({ handleChange, formData, icon, iconFunction, submit }) => {
 
 export default Form;
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   min-width: 601px;
   .form-button-container {
     margin-left: 15px;

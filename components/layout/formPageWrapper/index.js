@@ -17,7 +17,6 @@ export const FormPageWrapper = styled.div`
   }
   .header-content {
     align-items: center;
-    border: 1px solid red;
     display: flex;
     justify-content: space-between;
     min-width: 601px;

@@ -28,7 +28,16 @@ const Home = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    const headers = {
+      Authorization: "jennyhamborg",
+    };
+    Axios.post(
+      "https://us-central1-all-turtles-interview.cloudfunctions.net/books",
+      formData,
+      { headers }
+    ).then((response) => {
+      setAddBook(false);
+    });
   };
 
   const handleDelete = () => {
@@ -86,7 +95,7 @@ const Home = (props) => {
 
 export default Home;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const res = await Axios.get(
     "https://us-central1-all-turtles-interview.cloudfunctions.net/books",
     { headers: { Authorization: "jennyhamborg" } }
