@@ -1,4 +1,4 @@
-export default function Delete({ width, height, color }) {
+export default function DeleteIcon({ width, height, color }) {
   return (
     <svg width={width} height={height}>
       <path

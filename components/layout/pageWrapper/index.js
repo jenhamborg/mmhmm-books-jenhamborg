@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const HomePageWrapper = styled.div`
+export const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
   h1 {
@@ -16,8 +16,8 @@ export const HomePageWrapper = styled.div`
   }
   .header-content {
     align-items: center;
-    border: 1px solid red;
     display: flex;
     justify-content: space-between;
+    min-width: 601px;
   }
 `;

@@ -36,6 +36,7 @@ const CardContainer = styled.div`
   color: #000000;
   display: flex;
   height: 230px;
+  margin-bottom: 30px;
   padding: 15px;
   width: 601px;
   .card-icon-button {
@@ -55,7 +56,10 @@ const CardContainer = styled.div`
 
 const CardContent = styled.div`
   line-height: 150%;
+  overflow: hidden;
   padding-left: 15px;
+  text-overflow: ellipsis;
+  white-space: wrap;
   width: 393px;
   .card-subtitle {
     color: #5f5f5f;
