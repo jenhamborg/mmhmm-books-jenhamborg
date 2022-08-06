@@ -47,7 +47,7 @@ const Form = ({ handleChange, formData, icon, iconFunction, submit }) => {
           />
         </label>
         <div className="form-button-container">
-          <button type="submit">Save</button>
+          <Button type="submit">Save</Button>
         </div>
       </FormContainer>
     </FormPageWrapper>
