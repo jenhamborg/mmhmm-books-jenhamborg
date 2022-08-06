@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Axios from "axios";
 import { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import DeleteIcon from "../components/assets/delete";
 import Form from "../components/form";
 import { PageWrapper } from "../components/layout/pageWrapper";
 
-const baseUrl = "https://us-central1-all-turtles-interview.cloudfunctions.net"
+const baseUrl = "https://us-central1-all-turtles-interview.cloudfunctions.net";
 
 const Home = ({
   data,
@@ -24,49 +24,42 @@ const Home = ({
   });
   const router = useRouter();
 
-  const refreshData = () => {
+  function refreshData() {
     router.replace(router.asPath);
-  };
+  }
 
-  function handleChange(event) {
-    const value = event.target.value;
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
     setFormData({
       ...formData,
-      [event.target.name]: value,
+      [e.target.name]: value,
     });
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  function handleSubmit(e: ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
     const headers = {
       Authorization: "jennyhamborg",
     };
-    Axios.post(
-      `${baseUrl}/books`,
-      formData,
-      { headers }
-    ).then((res) => {
+    Axios.post(`${baseUrl}/books`, formData, { headers }).then((res) => {
       if (res.data) {
         setAddBook(false);
         refreshData();
       }
     });
-  };
+  }
 
-  const handleDelete = (bookId) => {
+  function handleDelete(bookId: string) {
     const headers = {
       Authorization: "jennyhamborg",
     };
     console.log("handle delete hit");
-    Axios.delete(
-      `${baseUrl}/${bookId}`,
-      { headers }
-    ).then((res) => {
+    Axios.delete(`${baseUrl}/${bookId}`, { headers }).then((res) => {
       if (res.data) {
         refreshData();
       }
     });
-  };
+  }
 
   return (
     <PageWrapper>
@@ -78,19 +71,19 @@ const Home = ({
               <Button onClick={() => setAddBook(true)}>Add book</Button>
             </div>
             <ul>
-              {data.map((book) => (
+              {data.map((book: any) => (
                 <li key={book.id}>
-                    <Card
-                      author={book.author}
-                      clickFunction={() => handleDelete(book.id)}
-                      icon={
-                        <DeleteIcon width={19} height={21} color={"#929292"} />
-                      }
-                      id={book.id}
-                      image={book.imageUrl}
-                      paragraph={book.description}
-                      title={book.title}
-                    />
+                  <Card
+                    author={book.author}
+                    clickFunction={() => handleDelete(book.id)}
+                    icon={
+                      <DeleteIcon width={19} height={21} color={"#929292"} />
+                    }
+                    id={book.id}
+                    image={book.imageUrl}
+                    paragraph={book.description}
+                    title={book.title}
+                  />
                 </li>
               ))}
             </ul>
@@ -112,10 +105,9 @@ const Home = ({
 export default Home;
 
 export const getServerSideProps = async () => {
-  const res = await Axios.get(
-    `${baseUrl}/books`,
-    { headers: { Authorization: "jennyhamborg" } }
-  );
+  const res = await Axios.get(`${baseUrl}/books`, {
+    headers: { Authorization: "jennyhamborg" },
+  });
   return {
     props: { data: res.data },
   };
