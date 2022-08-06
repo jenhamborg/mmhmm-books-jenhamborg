@@ -73,6 +73,7 @@ const FormContainer = styled.form`
     border-radius: 4px;
     height: 50px;
     margin: 10px 15px 50px 15px;
+    padding: 5px 10px;
     width: 90%;
   }
   textarea {
