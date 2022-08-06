@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Axios from "axios";
+import { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Button } from "../components/button";
 import Card from "../components/card";
 import CloseIcon from "../components/assets/close";
@@ -8,8 +10,11 @@ import DeleteIcon from "../components/assets/delete";
 import Form from "../components/form";
 import { PageWrapper } from "../components/layout/pageWrapper";
 
-const Home = (props) => {
-  const books = props.data;
+const baseUrl = "https://us-central1-all-turtles-interview.cloudfunctions.net"
+
+const Home = ({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [addBook, setAddBook] = useState(false);
   const [formData, setFormData] = useState({
     author: "",
@@ -17,6 +22,11 @@ const Home = (props) => {
     imageUrl: "",
     title: "",
   });
+  const router = useRouter();
+
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   function handleChange(event) {
     const value = event.target.value;
@@ -32,16 +42,30 @@ const Home = (props) => {
       Authorization: "jennyhamborg",
     };
     Axios.post(
-      "https://us-central1-all-turtles-interview.cloudfunctions.net/books",
+      `${baseUrl}/books`,
       formData,
       { headers }
-    ).then((response) => {
-      setAddBook(false);
+    ).then((res) => {
+      if (res.data) {
+        setAddBook(false);
+        refreshData();
+      }
     });
   };
 
-  const handleDelete = () => {
+  const handleDelete = (bookId) => {
+    const headers = {
+      Authorization: "jennyhamborg",
+    };
     console.log("handle delete hit");
+    Axios.delete(
+      `${baseUrl}/${bookId}`,
+      { headers }
+    ).then((res) => {
+      if (res.data) {
+        refreshData();
+      }
+    });
   };
 
   return (
@@ -54,18 +78,11 @@ const Home = (props) => {
               <Button onClick={() => setAddBook(true)}>Add book</Button>
             </div>
             <ul>
-              {books.map((book) => (
+              {data.map((book) => (
                 <li key={book.id}>
-                  <Link
-                    href={{
-                      pathname: "/[id]",
-                      query: { id: book.id },
-                    }}
-                  >
-                    {/* <a>{book.title}</a> */}
                     <Card
                       author={book.author}
-                      clickFunction={handleDelete}
+                      clickFunction={() => handleDelete(book.id)}
                       icon={
                         <DeleteIcon width={19} height={21} color={"#929292"} />
                       }
@@ -74,7 +91,6 @@ const Home = (props) => {
                       paragraph={book.description}
                       title={book.title}
                     />
-                  </Link>
                 </li>
               ))}
             </ul>
@@ -97,7 +113,7 @@ export default Home;
 
 export const getServerSideProps = async () => {
   const res = await Axios.get(
-    "https://us-central1-all-turtles-interview.cloudfunctions.net/books",
+    `${baseUrl}/books`,
     { headers: { Authorization: "jennyhamborg" } }
   );
   return {

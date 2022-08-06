@@ -65,6 +65,8 @@ const CardContent = styled.div`
     color: #5f5f5f;
     font-size: 0.75rem;
     font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
     line-height: 18px;
   }
 `;
