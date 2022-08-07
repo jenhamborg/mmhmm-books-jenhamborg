@@ -1,21 +1,37 @@
-import styled from "styled-components";
+import { ChangeEvent, FormEvent } from "react";
 import { FormPageWrapper } from "../layout/formPageWrapper";
 import { Button } from "../button";
 import { IconButton } from "../iconButton";
+import styled from "styled-components";
 
-const Form = ({ handleChange, formData, icon, iconFunction, submit }) => {
+type Form = {
+  handleChange: (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => void;
+  formData: {
+    title: string;
+    author: string;
+    description: string;
+    imageUrl: string;
+  };
+  icon: React.ReactNode;
+  iconFunction: () => void;
+  submit: (e: FormEvent<HTMLInputElement>) => void;
+};
+
+const Form = ({ handleChange, formData, icon, iconFunction, submit }: Form) => {
   return (
     <FormPageWrapper>
       <div className="header-content">
         <h1>Add a new book</h1>
         <IconButton onClick={iconFunction}>{icon}</IconButton>
       </div>
-      <FormContainer onSubmit={(event) => submit(event)}>
+      <FormContainer onSubmit={(e) => submit(e)}>
         <label>
           Title
           <input
             name="title"
-            onChange={(event) => handleChange(event)}
+            onChange={(e) => handleChange(e)}
             type="text"
             value={formData.title}
           />
@@ -24,24 +40,20 @@ const Form = ({ handleChange, formData, icon, iconFunction, submit }) => {
           Author
           <input
             name="author"
-            onChange={(event) => handleChange(event)}
+            onChange={(e) => handleChange(e)}
             type="text"
             value={formData.author}
           />
         </label>
         <label>
           Description
-          <textarea
-            name="description"
-            onChange={(event) => handleChange(event)}
-            type="text"
-          />
+          <textarea name="description" onChange={(e) => handleChange(e)} />
         </label>
         <label>
           Image URL
           <input
             name="imageUrl"
-            onChange={(event) => handleChange(event)}
+            onChange={(e) => handleChange(e)}
             type="text"
             value={formData.imageUrl}
           />

@@ -1,7 +1,6 @@
-import { ChangeEvent, useState } from "react";
+import { FormEvent, ChangeEvent, useState } from "react";
 import Axios from "axios";
 import { InferGetServerSidePropsType } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button } from "../components/button";
 import Card from "../components/card";
@@ -28,7 +27,9 @@ const Home = ({
     router.replace(router.asPath);
   }
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleChange(
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) {
     const value = e.target.value;
     setFormData({
       ...formData,
@@ -36,7 +37,7 @@ const Home = ({
     });
   }
 
-  function handleSubmit(e: ChangeEvent<HTMLInputElement>) {
+  function handleSubmit(e: FormEvent<HTMLInputElement>) {
     e.preventDefault();
     const headers = {
       Authorization: "jennyhamborg",
@@ -53,8 +54,7 @@ const Home = ({
     const headers = {
       Authorization: "jennyhamborg",
     };
-    console.log("handle delete hit");
-    Axios.delete(`${baseUrl}/${bookId}`, { headers }).then((res) => {
+    Axios.delete(`${baseUrl}/books/${bookId}`, { headers }).then((res) => {
       if (res.data) {
         refreshData();
       }

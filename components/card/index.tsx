@@ -2,7 +2,25 @@ import Image from "next/image";
 import styled from "styled-components";
 import { IconButton } from "../iconButton";
 
-const Card = ({ author, clickFunction, icon, id, image, paragraph, title }) => {
+type Card = {
+  author: string;
+  clickFunction: (id: string) => void;
+  icon: React.ReactNode;
+  id: string;
+  image: string;
+  paragraph: string;
+  title: string;
+};
+
+const Card = ({
+  author,
+  clickFunction,
+  icon,
+  id,
+  image,
+  paragraph,
+  title,
+}: Card) => {
   return (
     <CardContainer>
       <ImageContainer>
@@ -45,6 +63,7 @@ const CardContainer = styled.div`
     min-width: 50px;
   }
   h2 {
+    font-size: 1.25rem;
     margin: 0;
   }
   p {
