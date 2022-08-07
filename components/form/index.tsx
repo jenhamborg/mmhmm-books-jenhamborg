@@ -94,6 +94,7 @@ const FormContainer = styled.form`
     border-radius: 4px;
     height: 107px;
     margin: 10px 15px 30px 15px;
+    padding: 5px 10px;
     width: 90%;
   }
 `;
